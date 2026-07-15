@@ -30,6 +30,7 @@ it tracks:
 
 ## dashboard preview
 ![system telemetry dashboard](assets/demo-output-v2.png)
+<br>
 *(visual representation of the rpi edge telemetry dashboard running in a standard terminal like kitty)*
 
 ## installation & how to run
