@@ -13,6 +13,19 @@ it tracks:
 - system load & uptime
 - network i/o (rx/tx on wlan0 or eth0)
 - root storage space
+```text
+.
+├── assets/
+│   └── demo-output-v2.png    
+├── Makefile                 
+├── README.md
+├── v1/                     
+│   ├── main.cpp
+│   └── telemetry-monitor
+└── v2/                    
+    ├── main.cpp
+    └── telemetry-monitor
+```
 
 ## dashboard preview
 ![system telemetry dashboard](assets/demo-output-v2.png)
