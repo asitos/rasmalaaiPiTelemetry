@@ -82,18 +82,41 @@ string get_config_interface() {
   return interface;
 }
 
+string get_network_target() {
+    std::string interface = get_config_interface(); 
+    if (interface == "auto" || interface.empty()) {
+        return get_active_interface();
+    }
+    return interface;
+}
+
+
+string get_active_interface() {
+    ifstream route_file("/proc/net/route");
+    string line, iface, dest;
+    getline(route_file, line); 
+    while (getline(route_file, line)) {
+        istringstream iss(line);
+        iss >> iface >> dest;
+        if (dest == "00000000") {
+          return iface; 
+        }
+    }
+    return "wlan0"; 
+}
+
 void get_network_io(double& rx_mb, double& tx_mb) {
-    std::string target_iface = get_config_interface() + ":";
-    std::ifstream file("/proc/net/dev");
-    std::string line;
+    string target_iface = get_network_target() + ":";
+    ifstream file("/proc/net/dev");
+    string line;
     rx_mb = 0.0; tx_mb = 0.0;
     
-    std::getline(file, line);
-    std::getline(file, line);
+    getline(file, line);
+    getline(file, line);
 
     while (std::getline(file, line)) {
-        std::istringstream iss(line);
-        std::string iface;
+        istringstream iss(line);
+        string iface;
         iss >> iface;
 
         /*std::cout << "Found interface: " << iface << std::endl; */
@@ -104,8 +127,8 @@ void get_network_io(double& rx_mb, double& tx_mb) {
             for (int i = 0; i < 7; ++i) iss >> dummy;
             iss >> tx_bytes;
             
-            rx_mb = static_cast<double>(rx_bytes) / 1024.0; 
-            tx_mb = static_cast<double>(tx_bytes) / 1024.0;
+            rx_mb = static_cast<double>(rx_bytes) / 1024.0 / 1024.0; 
+            tx_mb = static_cast<double>(tx_bytes) / 1024.0 / 1024.0;
             return; 
         }
     }
@@ -159,8 +182,8 @@ int main() {
              << "(" << static_cast<int>(disk_percent) << "%)\n\n";
 
         cout << BOLD << "Network I/O   : " << RESET 
-             << "RX: " << fixed << setprecision(2) << rx_mb << " KB | "
-             << "TX: " << fixed << setprecision(2) << tx_mb << " KB\n";
+             << "RX: " << fixed << setprecision(2) << rx_mb << " MB | "
+             << "TX: " << fixed << setprecision(2) << tx_mb << " MB\n";
                   
         cout << "\nPolling every 1000ms... (Ctrl+C to exit)\n";
         
