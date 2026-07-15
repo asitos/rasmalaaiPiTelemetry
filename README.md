@@ -20,6 +20,9 @@ no external dependencies needed. just compile and run it.
 # build both versions at once
 make
 
+# give execution permissions to the binaries
+chmod +x telemetry-01/telemetry_monitor telemetry-02/updatedTelemetry
+
 # execute the optimized version
 ./telemetry-02/updatedTelemetry
 
