@@ -114,9 +114,9 @@ void get_network_io(double& rx_mb, double& tx_mb) {
 
 int main() {
     TelemetryNode pi_node;
-    long total_ram, used_ram;
-    double rx_mb, tx_mb;
-    double disk_total, disk_used;
+    long total_ram = 0, used_ram = 0;
+    double rx_mb = 0.0, tx_mb = 0.0;
+    double disk_total = 1.0, disk_used = 0.0;
 
     while (true) {
         double temp = pi_node.get_cpu_temp();
@@ -155,3 +155,4 @@ int main() {
     }
     return 0;
 }
+
