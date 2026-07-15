@@ -17,6 +17,7 @@ it tracks:
 .
 ├── assets/
 │   └── demo-output-v2.png    
+├── config.ini
 ├── Makefile                 
 ├── README.md
 ├── v1/                     
@@ -67,7 +68,6 @@ interface = <option>
 | auto       | automatically detects and monitors the system's active default interface.|        
 | *(empty)*  | defaults to auto |
 
----
 
 ## learning notes
 - i learnt about optimisaton flags for gcc while compiling this for my rpi, and realised how there's different flags for each use case, O2, O3, Os, and march=native.
@@ -75,5 +75,7 @@ interface = <option>
 - since its a small sized system, i realised the -Os flag would be better to use, compared to the recommended -O2 flag for optimisation for space,takes insignificant extra time to compile, but requires less resources upon execution of the compiled program.
 
 - later on, i also learnt how to develop a Makefile to automate the compilation process for my projects. learned how to define targets, manage dependencies, and use automatic variables like `$@` (target) and `$<` (first dependency) to streamline build commands.
+
+- learning how implementing config.ini achieves dynamic options for the end user, for other host machines.
 
 - further, before finishing up with the project, i looked up how naming conventions work for projects like these, so i renamed the folders and files to match the industry standard of naming conventions, and altered the makefile, directory structure accordingly.
