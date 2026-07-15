@@ -1,13 +1,16 @@
 CXX = g++
 CXXFLAGS = -Os -Wall
 
-all: telemetry-01/telemetry_monitor telemetry-02/updatedTelemetry
+BIN_V1 = v1/telemetry-monitor
+BIN_V2 = v2/telemetry-monitor
 
-telemetry-01/telemetry_monitor: telemetry-01/main.cpp
+all: $(BIN_V1) $(BIN_V2)
+
+$(BIN_V1): v1/main.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
 
-telemetry-02/updatedTelemetry: telemetry-02/main.cpp
+$(BIN_V2): v2/main.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
 
 clean:
-	rm -f telemetry-01/telemetry_monitor telemetry-02/updatedTelemetry
+	rm -f $(BIN_V1) $(BIN_V2)
