@@ -69,8 +69,21 @@ public:
         }
         return "N/A";
     }
+string get_config_interface() {
+  ifstream file("config.ini");
+  string line, interface = "wlan0"; // default
+  while (getline(file, line)) {
+    if (line.find("interface = ") != string::npos) {
+      interface = line.substr(line.find("= ") + 2);
+      break;
+    } 
+  }
+ 
+  return interface;
+}
 
 void get_network_io(double& rx_mb, double& tx_mb) {
+    std::string target_iface = get_config_interface() + ":";
     std::ifstream file("/proc/net/dev");
     std::string line;
     rx_mb = 0.0; tx_mb = 0.0;
@@ -85,7 +98,7 @@ void get_network_io(double& rx_mb, double& tx_mb) {
 
         /*std::cout << "Found interface: " << iface << std::endl; */
 
-        if (iface == "wlan0:") {
+        if (iface == target_iface) {
             long long rx_bytes, tx_bytes, dummy;
             iss >> rx_bytes;
             for (int i = 0; i < 7; ++i) iss >> dummy;
