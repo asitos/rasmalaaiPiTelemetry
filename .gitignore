@@ -1,0 +1,5 @@
+telemetry-01/telemetry_monitor
+telemetry-02/updatedTelemetry
+
+*.o
+*~
