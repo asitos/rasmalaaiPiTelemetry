@@ -2,6 +2,10 @@
 
 a small c++ script to keep an eye on my raspberry pi. it reads directly from `/proc` and `/sys` to show basic stats in the terminal. nothing fancy, just a quick way to check on things without installing bloated monitoring tools.
 
+## project structure
+* `telemetry-01/`: initial version using standard parsing.
+* `telemetry-02/`: optimized version incorporating refined network parsing and VFS disk space monitoring.
+
 it tracks:
 - cpu temp (turns yellow if it gets over 70°c)
 - ram usage
@@ -14,8 +18,13 @@ it tracks:
 no external dependencies needed. just compile and run it.
 
 ```bash
-g++ -Os telemetry.cpp -o telemetry
-./telemetry
+# example for version 02
+# cd into telemetry-02
+cd telemetry-02
+
+#compile with -O2 optimization (can use -Os too for space optimisation)
+g++ -O2 telemetry-02.cpp -o updatedTelemetry
+./updatedTelemetry
 ```
 
 it updates every second, press ctrl+c to exit
