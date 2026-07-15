@@ -32,11 +32,15 @@ it tracks:
 ![system telemetry dashboard](assets/demo-output-v2.png)
 *(visual representation of the rpi edge telemetry dashboard running in a standard terminal like kitty)*
 
-## how to run
+## installation & how to run
 
 no external dependencies needed. just compile and run it.
 
 ```bash
+# clone this repo
+git clone https://github.com/asitos/rasmalaaiPiTelemetry.git
+cd ./rasmalaaiPiTelemetry
+
 # build both versions at once
 make
 
