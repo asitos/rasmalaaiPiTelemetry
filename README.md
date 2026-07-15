@@ -66,7 +66,7 @@ you can customize the network interface monitored by the telemetry script by mod
 interface = <option>
 ```
 
-| <option>   | behaviour |
+| \<option\>   | behaviour |
 | ---        | ---       |
 | wlan0/eth0 | monitors the specific interface name provided. |
 | auto       | automatically detects and monitors the system's active default interface.|        
