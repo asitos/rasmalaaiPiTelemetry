@@ -15,7 +15,7 @@ it tracks:
 - root storage space
 
 ## dashboard preview
-![system telemetry dashboard](assets/demo-output.png)
+![system telemetry dashboard](assets/demo-output-v2.png)
 *(visual representation of the rpi edge telemetry dashboard running in a standard terminal like kitty)*
 
 ## how to run
