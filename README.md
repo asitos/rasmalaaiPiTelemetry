@@ -51,6 +51,24 @@ make clean
 
 it updates every second, press ctrl+c to exit
 
+## configuration
+
+Available Options:
+you can customize the network interface monitored by the telemetry script by modifying the `config.ini` file in the root directory:
+
+```ini
+[Network]
+interface = <option>
+```
+
+| <option>   | behaviour |
+| ---        | ---       |
+| wlan0/eth0 | monitors the specific interface name provided. |
+| auto       | automatically detects and monitors the system's active default interface.|        
+| *(empty)*  | defaults to auto |
+
+---
+
 ## learning notes
 - i learnt about optimisaton flags for gcc while compiling this for my rpi, and realised how there's different flags for each use case, O2, O3, Os, and march=native.
 
