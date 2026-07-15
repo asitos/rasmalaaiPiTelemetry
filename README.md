@@ -58,7 +58,6 @@ it updates every second, press ctrl+c to exit
 
 ## configuration
 
-Available Options:
 you can customize the network interface monitored by the telemetry script by modifying the `config.ini` file in the root directory:
 
 ```ini
