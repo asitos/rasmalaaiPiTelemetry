@@ -4,11 +4,10 @@
 #include <sstream>
 #include <unistd.h>
 #include <iomanip>
-#include <sys/statvfs.h> // POSIX standard for file system statistics
+#include <sys/statvfs.h> 
 
 using namespace std;
 
-// ANSI escape sequences
 const string CLEAR_SCREEN = "\033[2J\033[1;1H";
 const string BOLD = "\033[1m";
 const string GREEN = "\033[32m";
@@ -59,7 +58,6 @@ public:
         return "N/A";
     }
 
-    // NEW: System Uptime
     string get_uptime() {
         ifstream file("/proc/uptime");
         double uptime_sec;
@@ -72,30 +70,36 @@ public:
         return "N/A";
     }
 
-    // NEW: Network Interface I/O (RX/TX)
-    void get_network_io(double& rx_mb, double& tx_mb) {
-        ifstream file("/proc/net/dev");
-        string line;
-        rx_mb = 0; tx_mb = 0;
-        long rx_bytes = 0, tx_bytes = 0;
+void get_network_io(double& rx_mb, double& tx_mb) {
+    std::ifstream file("/proc/net/dev");
+    std::string line;
+    rx_mb = 0.0; tx_mb = 0.0;
+    
+    std::getline(file, line);
+    std::getline(file, line);
 
-        while (getline(file, line)) {
-            // Target the active interface (usually wlan0 or eth0 on the Pi)
-            if (line.find("wlan0:") != string::npos || line.find("eth0:") != string::npos) {
-                // Strip the interface name and parse the raw numbers
-                istringstream iss(line.substr(line.find(":") + 1));
-                long dummy; // Throwaway variable for columns we don't need
-                
-                // Column 1 is Receive Bytes, Column 9 is Transmit Bytes
-                iss >> rx_bytes >> dummy >> dummy >> dummy >> dummy >> dummy >> dummy >> dummy >> tx_bytes;
-                break;
-            }
+    while (std::getline(file, line)) {
+        std::istringstream iss(line);
+        std::string iface;
+        iss >> iface;
+
+        /*std::cout << "Found interface: " << iface << std::endl; */
+
+        if (iface == "wlan0:") {
+            long long rx_bytes, tx_bytes, dummy;
+            iss >> rx_bytes;
+            for (int i = 0; i < 7; ++i) iss >> dummy;
+            iss >> tx_bytes;
+            
+            rx_mb = static_cast<double>(rx_bytes) / 1024.0; 
+            tx_mb = static_cast<double>(tx_bytes) / 1024.0;
+            return; 
         }
-        rx_mb = rx_bytes / (1024.0 * 1024.0);
-        tx_mb = tx_bytes / (1024.0 * 1024.0);
     }
+}
 
-    // NEW: Disk Space via VFS system call
+ 
+
     void get_disk_space(double& total_gb, double& used_gb) {
         struct statvfs buffer;
         if (statvfs("/", &buffer) == 0) {
@@ -115,7 +119,6 @@ int main() {
     double disk_total, disk_used;
 
     while (true) {
-        // Collect kernel analytics
         double temp = pi_node.get_cpu_temp();
         pi_node.get_memory_stats(total_ram, used_ram);
         string load = pi_node.get_load_avg();
@@ -123,11 +126,9 @@ int main() {
         pi_node.get_network_io(rx_mb, tx_mb);
         pi_node.get_disk_space(disk_total, disk_used);
         
-        // Compute capacities
         double ram_percent = (static_cast<double>(used_ram) / total_ram) * 100.0;
         double disk_percent = (disk_used / disk_total) * 100.0;
 
-        // Render UI
         cout << CLEAR_SCREEN;
         cout << BOLD << CYAN << "=== [ RPi 3B+ Edge Telemetry v2.0 ] ===" << RESET << "\n\n";
         
@@ -145,8 +146,8 @@ int main() {
              << "(" << static_cast<int>(disk_percent) << "%)\n\n";
 
         cout << BOLD << "Network I/O   : " << RESET 
-             << "RX: " << fixed << setprecision(2) << rx_mb << " MB | "
-             << "TX: " << fixed << setprecision(2) << tx_mb << " MB\n";
+             << "RX: " << fixed << setprecision(2) << rx_mb << " KB | "
+             << "TX: " << fixed << setprecision(2) << tx_mb << " KB\n";
                   
         cout << "\nPolling every 1000ms... (Ctrl+C to exit)\n";
         
