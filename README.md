@@ -1,7 +1,9 @@
 # rasmalaaiPiTelemetry
 
 a small c++ script to keep an eye on my raspberry pi. it reads directly from `/proc` and `/sys` to show basic stats in the terminal. nothing fancy, just a quick way to check on things without installing bloated monitoring tools.
+
 ## project structure
+
 * `v1/`: initial version using standard parsing.
 * `v2/`: optimized version incorporating refined network parsing and VFS disk space monitoring.
 
@@ -11,6 +13,10 @@ it tracks:
 - system load & uptime
 - network i/o (rx/tx on wlan0 or eth0)
 - root storage space
+
+## dashboard preview
+![system telemetry dashboard](assets/demo-output.png)
+*(visual representation of the rpi edge telemetry dashboard running in a standard terminal like kitty)
 
 ## how to run
 
